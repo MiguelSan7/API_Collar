@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('pets', function (Blueprint $table) {
             $table->id('id');
-            $table->nombre('nombre');
-            $table->peso('peso');
-            $table->collar('id_collar');
-            $table->dueño('id_dueño');
+            $table->string('nombre');
+            $table->string('peso');
+            $table->integer('id_collar');
+            $table->integer('id_dueño');
             $table->timestamps();
         });
     }
