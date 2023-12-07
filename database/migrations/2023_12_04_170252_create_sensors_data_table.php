@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('sensors_data', function (Blueprint $table) {
             $table->id();
+            $table->tipo('id');
+            $table->valor('valor');
             $table->timestamps();
         });
     }

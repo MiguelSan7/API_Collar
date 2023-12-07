@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('collars', function (Blueprint $table) {
             $table->id();
+            $table->sensores('id');
             $table->timestamps();
         });
     }
