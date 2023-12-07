@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id('id');
             $table->string('nombre');
             $table->string('peso');
-            $table->integer('id_collar');
-            $table->integer('id_dueño');
+            $table->integer('id')->constrained('collars');
+            $table->foreignId('id')->constrained('users');
             $table->timestamps();
         });
     }

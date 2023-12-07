@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sensors_data', function (Blueprint $table) {
             $table->id();
-            $table->integer('id');
+            $table->foreignId('id')->constrained('sensors');
             $table->string('valor');
             $table->timestamps();
         });
