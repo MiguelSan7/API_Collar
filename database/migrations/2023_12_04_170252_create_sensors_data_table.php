@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sensors_data', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_sensor');
             $table->foreignId('id')->constrained('sensors');
             $table->string('valor');
             $table->timestamps();
