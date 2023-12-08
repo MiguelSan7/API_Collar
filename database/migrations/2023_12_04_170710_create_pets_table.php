@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pets', function (Blueprint $table) {
-            $table->id('id');
+            $table->id('id_mascota');
             $table->string('nombre');
             $table->string('peso');
-            $table->integer('id')->constrained('collars');
-            $table->foreignId('id')->constrained('users');
+            $table->foreignId('id_collar')->constrained('collars');
+            $table->foreignId('id_usuario')->constrained('users');
             $table->timestamps();
         });
     }
