@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('collars', function (Blueprint $table) {
-            $table->id('id_collar');
+            $table->id();
             $table->foreignId('id_sensor')->constrained('sensors_data');
             $table->timestamps();
         });
