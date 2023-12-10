@@ -8,33 +8,41 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\auth\LoginRequest;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class AuthController extends Controller
 {
-    public function register(request $request){
-        $this->validate($request, [
-            'nombre' => 'required|string|max:255',
-            'apellidos' => 'required|string',
-            'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|confirmed'
-        ]);
-        $user = new User([
-            'nombre' => $request->nombre,
-            'apellidos' => $request->apellidos,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
+    public function register(Request $request){
+        $validate= Validator::make($request->all(),[
+            "nombre" => 'required|min:3|max:20',
+            "apellidos" => 'required|min:3|max:20',
+            "email" => 'required|string|email|unique:users|max:255',
+            "password" => 'required|string|confirmed',
+            "password_confirmation"=>'required|string'
         ]);
 
+        if($validate->fails())
+        {
+            return response()->json(["errors"=>$validate->errors(),
+            "msg"=>"Errores de validación"],422);
+        }
+
+        $user = new User;
+        $user->nombre=$request->nombre;
+        $user->apellidos=$request->apellidos;
+        $user->email=$request->email;
+        $user->password=Hash::make($request->password);
         $user->save();
 
         $token = JWTAuth::fromUser($user);
       
 
         return response()->json([
-            'user' => $user,
-            'token' => $token,
-            'message' => 'Successfully created user!'
+            "user" => $user,
+            "token" => $token,
+            "message" => "Successfully created user!"
         ], 201);
     }
 
