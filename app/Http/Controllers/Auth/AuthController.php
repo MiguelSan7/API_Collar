@@ -55,4 +55,37 @@ class AuthController extends Controller
             'message' => 'Successfully login!',
         ], 201);
     }
+
+    public function logout(Request $request)
+    {
+        $this->validate($request, [
+            'token' => 'required',
+        ]);
+
+        try {
+            JWTAuth::invalidate($request->token);
+
+            return response()->json([
+                'message' => 'Successfully logout!',
+            ], 201);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_logout'], 500);
+        }
+    }
+
+    public function refresh()
+    {
+        return response()->json([
+            'token' => JWTAuth::refresh(),
+            'message' => 'Successfully refresh!',
+        ], 201);
+    }
+
+    public function me()
+    {
+        return response()->json([
+            'user' => JWTAuth::user(),
+            'message' => 'Successfully get user!',
+        ], 201);
+    }
 }
