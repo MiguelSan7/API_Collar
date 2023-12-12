@@ -10,16 +10,16 @@ class Pet extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre', 'peso', 'collar_id', 'dueño',
+        'nombre', 'peso', 'id_collar', 'id_usuario',
     ];
 
     public function owner()
     {
-        return $this->belongsTo(User::class, 'dueño');
+        return $this->belongsTo(User::class, 'id_usuario');
     }
 
     public function collar()
     {
-        return $this->belongsTo(Collar::class, 'collar_id');
+        return $this->belongsTo(Collar::class, 'id_collar');
     }
 }

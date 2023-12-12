@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PetsController extends Controller
 {
@@ -31,9 +32,19 @@ class PetsController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        // Falta validar los datos del request antes de crearlos.
+        // Validación de los datos antes de crear la mascota
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string',
+            'peso' => 'required|string',
+            'id_collar' => 'required|exists:collars,id',
+            'id_usuario' => 'required|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
+        }
 
         $pet = Pet::create($request->all());
 
@@ -45,7 +56,17 @@ class PetsController extends Controller
 
     public function update(Request $request, $id)
     {
-        // falta validar los datos del request antes de actualizarlos.
+        // Validación de los datos antes de actualizar la mascota
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string',
+            'peso' => 'required|string',
+            'id_collar' => 'required|exists:collars,id',
+            'id_usuario' => 'required|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
+        }
 
         $pet = Pet::find($id);
 

@@ -19,7 +19,7 @@ class AuthController extends Controller
                 'nombre' => 'required|string|max:255',
                 'apellidos' => 'required|string',
                 'email' => 'required|string|email|unique:users|max:255',
-                'password' => 'required|string|confirmed',
+                'password' => 'required|string|confirmed|min:8',
                 'password_confirmation' => 'required|string',
             ]);
             if($validate->fails())
@@ -43,7 +43,7 @@ class AuthController extends Controller
                 'token' => $token,
                 'message' => 'Successfully created user!',
             ], 201);
-}
+    }
 
     public function login(LoginRequest $request)
     {
