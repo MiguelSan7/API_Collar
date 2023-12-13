@@ -76,7 +76,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function Home(Request $request, int $id)
+    public function Profile(Request $request, int $id)
     {
         $user=user::find($id);
         if($user)
@@ -86,7 +86,8 @@ class AuthController extends Controller
                     "msg"=>"Persona encontrada!!",
                     "nombre"=>$user->nombre,
                     "apellidos"=>$user->apellidos,
-                    "email"=>$user->email
+                    "email"=>$user->email,
+                    "password"=>$user->password
                 ],200);
         }
 
