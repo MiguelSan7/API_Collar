@@ -44,3 +44,5 @@ Route::group(
         Route::delete('/delete/{id}', [PetsController::class, 'destroy']);
     }
 );
+
+Route::get('guzzle/view', [GuzzleController::class, 'apiHTTP']);

@@ -38,7 +38,7 @@ public function apiHTTP()
         }
         
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_kCbi91Aoq0YmCC6yC83Xvqy1NdBL',
+            'X-AIO-Key' => 'aio_jpOV56JywT9gv5f0D43fEZCai6vH',
         ])->get("https://io.adafruit.com/api/v2/Kiilver/feeds/{$feed}/data");
         
         if ($response->ok()) {
