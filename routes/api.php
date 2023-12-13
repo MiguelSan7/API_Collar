@@ -42,6 +42,7 @@ Route::group(
         Route::post('/add', [PetsController::class, 'store']);
         Route::put('/edit/{id}', [PetsController::class, 'update']);
         Route::delete('/delete/{id}', [PetsController::class, 'destroy']);
+        Route::get('/mypets/{id}',[PetsController::class,'MyPets']);
     }
 );
 

@@ -24,6 +24,14 @@ class AuthController extends Controller
             ]);
             if($validate->fails())
             {
+                $errors = $validate->errors();
+
+                if ($errors->has('email') && $errors->first('email') === 'The email has already been taken.') {
+                    return response()->json([
+                        "errors" => $errors,
+                        "msg" => "Email already taken",
+                    ], 409); 
+                }
                 return response()->json(["errors"=>$validate->errors(),
                 "msg"=>"Errores de validación"],422);
             }
