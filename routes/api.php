@@ -4,6 +4,7 @@ use App\Http\Controllers\PetsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\GuzzleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,9 @@ use App\Http\Controllers\Auth\AuthController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::get('/profile/{id}',[AuthController::class,'Profile']);
+
+Route::post('/add', [PetsController::class, 'store']);
 Route::get('/mypets/{id}',[PetsController::class,'MyPets']);
+
+Route::get('guzzle/view', [GuzzleController::class, 'apiHTTP']);

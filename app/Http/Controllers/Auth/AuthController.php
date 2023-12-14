@@ -69,10 +69,16 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
+        $user=user::find($id);
+        if($user)
+        {
+            $nombre=$user->nombre;
+        }
         return response()->json([
             'token' => $token,
             'message' => 'Successfully login!',
-            'id'=>$id
+            'id'=>$id,
+            'nombre'=>$nombre
         ], 201);
     }
 

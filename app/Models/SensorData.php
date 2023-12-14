@@ -15,11 +15,11 @@ class SensorData extends Model
 
     public function collar()
     {
-        return $this->belongsTo(Collar::class, 'id_sensoresdata');
+        return $this->hasOne(Collar::class);
     }
 
     public function sensor()
     {
-        return $this->belongsTo(Sensor::class, 'id_sensor');
+        return $this->hasOne(Sensor::class);
     }
 }

@@ -35,7 +35,7 @@ class PetsController extends Controller
             [
                 "nombre"=>$user->nombre,
                 "msg" => "You don't have any registered pets!"
-            ], 404);
+            ], 401);
         }
     }   
 
@@ -51,9 +51,14 @@ class PetsController extends Controller
         ]);
 
         if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            if ($errors->has('id_collar') && $errors->first('id_collar') === 'The selected id collar is invalid.') {
+                return response()->json(['message' => 'Invalid id_collar', 'errors' => $validator->errors()], 401);
+            }
+        
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
         }
-
         $pet = Pet::create($request->all());
 
         return response()->json([

@@ -15,11 +15,11 @@ class Collar extends Model
 
     public function pets()
     {
-        return $this->hasMany(Pet::class, 'collar_id');
+        return $this->belongsTo(Pet::class, 'id_collar');
     }
 
     public function sensorData()
     {
-        return $this->hasOne(SensorData::class, 'id_sensoresdata');
+        return $this->belongsTo(SensorData::class);
     }
 }

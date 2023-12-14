@@ -15,11 +15,11 @@ class Pet extends Model
 
     public function owner()
     {
-        return $this->belongsTo(User::class, 'dueño');
+        return $this->hasOne(User::class, 'dueño');
     }
 
     public function collar()
     {
-        return $this->belongsTo(Collar::class, 'collar_id');
+        return $this->hasOne(Collar::class);
     }
 }
