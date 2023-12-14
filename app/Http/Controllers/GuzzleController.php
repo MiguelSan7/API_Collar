@@ -35,10 +35,14 @@ public function apiHTTP()
             case 7:
                 $feed="correa-inteligentepiezoelectrico";
                 break;
+            case 8:
+                $feed="correa-inteligentebuzzer";
+                break;
+            
         }
         
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_jpOV56JywT9gv5f0D43fEZCai6vH',
+            'X-AIO-Key' => 'aio_cHec78sdrwepit6A67medtt3h4Qg',
         ])->get("https://io.adafruit.com/api/v2/Kiilver/feeds/{$feed}/data");
         
         if ($response->ok()) {
@@ -61,6 +65,29 @@ public function apiHTTP()
     // Devuelves todas las respuestas en un solo JSON
     return response()->json($responses, 200);
 }
+public function controlarBuzzer(Request $request) {
+    $data = json_decode($request->getContent(), true);
+    $valor = isset($data['value']) ? $data['value'] : 0;
 
+    $response = Http::withHeaders([
+        'X-AIO-Key' => 'aio_cHec78sdrwepit6A67medtt3h4Qg',
+        'Content-Type' => 'application/json',
+    ])->post("https://io.adafruit.com/api/v2/Kiilver/feeds/correa-inteligentebuzzer/data", [
+        'value' => $valor
+    ]);
+
+    if ($response->ok()) {
+        $accion = $valor == 0 ? 'apagar' : 'encender';
+
+        return response()->json([
+            "msg" => "Buzzer $accion correctamente",
+        ], 200);
+    } else {
+        return response()->json([
+            "msg" => "No se ha podido realizar la acción en el buzzer...",
+            "data" => $response->body(),
+        ], 400);
+    }
+}
     
 }

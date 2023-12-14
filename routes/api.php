@@ -45,5 +45,13 @@ Route::group(
         Route::get('/mypets/{id}',[PetsController::class,'MyPets']);
     }
 );
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'guzzle',
 
-Route::get('guzzle/view', [GuzzleController::class, 'apiHTTP']);
+],
+function ($router) {
+    Route::post('/buzzer', [GuzzleController::class, 'controlarBuzzer']);
+    Route::get('/view', [GuzzleController::class, 'apiHTTP']);
+}
+);
