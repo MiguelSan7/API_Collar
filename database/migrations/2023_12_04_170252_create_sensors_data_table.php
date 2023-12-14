@@ -14,10 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sensors_data', function (Blueprint $table) {
-            $table->id('id_sensor');
-            $table->foreignId('id')->constrained('sensors');
+            $table->id('id');
+            $table->foreignId('id_sensor')->constrained('sensors');
             $table->string('valor');
             $table->timestamps();
+            $table->foreignId('id_collar')->constrained('collars');
         });
     }
 
