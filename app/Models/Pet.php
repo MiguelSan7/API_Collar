@@ -8,18 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Pet extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'nombre', 'peso', 'collar_id', 'dueño',
+        'nombre', 'peso', 'collar', 'owner',
     ];
 
     public function owner()
     {
-        return $this->hasOne(User::class, 'dueño');
+        return $this->hasOne(User::class,'owner');
     }
 
     public function collar()
     {
-        return $this->hasOne(Collar::class);
+        return $this->hasOne(Collar::class,'collar');
     }
 }

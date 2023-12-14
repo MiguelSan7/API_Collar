@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CollarsController;
 use App\Http\Controllers\PetsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

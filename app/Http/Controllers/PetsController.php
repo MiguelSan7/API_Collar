@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\Pet;
 class PetsController extends Controller
 {
     public function MyPets(Request $request, int $id)
@@ -18,9 +18,8 @@ class PetsController extends Controller
         GROUP BY pets.nombre
     ', [":id"=>$id]);
         
-    $user=user::find($id);
 
-    if ($result != null && $user) {
+    if ($result != null) {
         $pets_res = DB::select('SELECT pets.nombre as MyPets FROM pets
             INNER JOIN users ON users.id = pets.id_usuario
             WHERE pets.id_usuario = :id
@@ -28,12 +27,10 @@ class PetsController extends Controller
     
         return response()->json(
             [
-                'nombre'=>$user->nombre,
                 'pets' => $pets_res],200);
     } else {
         return response()->json(
             [
-                "nombre"=>$user->nombre,
                 "msg" => "You don't have any registered pets!"
             ], 401);
         }

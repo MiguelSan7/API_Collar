@@ -40,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function pets()
     {
-        return $this->hasMany(Pet::class);
+        return $this->belongsTo(Pet::class);
     }
 
     public function getJWTIdentifier()

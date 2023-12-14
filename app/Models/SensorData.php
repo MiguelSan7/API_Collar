@@ -10,16 +10,16 @@ class SensorData extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tipo_sensor', 'valor',
+        'tipo_sensor', 'valor','collar'
     ];
 
     public function collar()
     {
-        return $this->hasOne(Collar::class);
+        return $this->hasOne(Collar::class,'collar');
     }
 
     public function sensor()
     {
-        return $this->hasOne(Sensor::class);
+        return $this->hasOne(Sensor::class,'tipo_sensor');
     }
 }

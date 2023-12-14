@@ -10,11 +10,11 @@ class Sensor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre', 'unidad_medida',
+        'nombre', 'unidad',
     ];
 
     public function sensorData()
     {
-        return $this->hasMany(SensorData::class, 'id_sensor');
+        return $this->hasMany(SensorData::class);
     }
 }

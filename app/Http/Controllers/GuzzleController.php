@@ -47,19 +47,21 @@ class GuzzleController extends Controller
             $value = $data[0]['value'];
             $feedKey = $data[0]['feed_key'];
             
+
             $responses[] = [
                 "feed_key" => $feedKey,
                 "value" => $value
             ];
+            return response()->json(['sensor_data'=> $responses, 200]);
         } else {
-            $responses[] = [
+            $responses[] = ([
                 "msg" => "No quema kuh :C",
                 "data" => $response->body()
-            ];
+            ]);
+            return response()->json($responses, 401);
         }
     }
 
     // Devuelves todas las respuestas en un solo JSON
-    return response()->json($responses, 200);
 }
 }
