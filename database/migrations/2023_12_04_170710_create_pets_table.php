@@ -17,11 +17,13 @@ return new class extends Migration
             $table->id('id_mascota');
             $table->string('nombre');
             $table->string('peso');
-            $table->foreignId('id_collar')->constrained('collars');
-            $table->foreignId('id_usuario')->constrained('users');
+            $table->foreignId('id_collar')->constrained('collars', 'id_collar');
+            // Especifica la columna a la que se hace referencia (id) y la tabla (users)
+            $table->foreignId('id_usuario')->constrained('users', 'id_usuario');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

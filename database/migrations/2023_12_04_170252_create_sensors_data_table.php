@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sensors_data', function (Blueprint $table) {
-            $table->id('id');
-            $table->foreignId('id_sensor')->constrained('sensors');
+            $table->id('id_sensor');
+            $table->foreignId('id')->constrained('sensors');
             $table->string('valor');
+            $table->unsignedBigInteger('id_collar'); // Cambiado a unsignedBigInteger
+            $table->foreign('id_collar')->references('id_collar')->on('collars'); // Cambiado a id_collar
             $table->timestamps();
-            $table->foreignId('id_collar')->constrained('collars');
         });
     }
 
