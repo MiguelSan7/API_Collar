@@ -74,13 +74,14 @@ class AuthController extends Controller
         if($user)
         {
             $nombre=$user->nombre;
+            return response()->json([
+                'token' => $token,
+                'message' => 'Successfully login!',
+                'id_usuario'=>$id,
+                'nombre'=>$nombre
+            ], 201);
         }
-        return response()->json([
-            'token' => $token,
-            'message' => 'Successfully login!',
-            'id_usuario'=>$id,
-            'nombre'=>$nombre
-        ], 201);
+
     }
 
     public function Profile(Request $request, int $id)

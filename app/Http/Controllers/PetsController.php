@@ -119,7 +119,7 @@ class PetsController extends Controller
     {
         $result = DB::select('SELECT count(pets.nombre) as "MyPets"
         FROM pets
-        INNER JOIN users ON users.id = pets.id_usuario
+        INNER JOIN users ON users.id_usuario = pets.id_usuario
         WHERE pets.id_usuario = :id
         GROUP BY pets.nombre
     ', [":id"=>$id]);
@@ -127,7 +127,7 @@ class PetsController extends Controller
 
     if ($result != null) {
         $pets_res = DB::select('SELECT pets.nombre as MyPets FROM pets
-            INNER JOIN users ON users.id = pets.id_usuario
+            INNER JOIN users ON users.id_usuario = pets.id_usuario
             WHERE pets.id_usuario = :id
         ', [":id"=>$id]);
     
