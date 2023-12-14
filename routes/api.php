@@ -29,6 +29,7 @@ Route::group(
         Route::get('me', [AuthController::class, 'me']);
         Route::get('/home/{id}',[AuthController::class,'Home']);
         Route::put('/users/{id}/update-password', [AuthController::class, 'UpdatePassword']);
+        Route::get('/profile/{id}',[AuthController::class,'Profile']);
     }
 );
 
