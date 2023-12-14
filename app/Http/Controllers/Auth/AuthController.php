@@ -19,7 +19,7 @@ class AuthController extends Controller
                 'nombre' => 'required|string|max:255',
                 'apellidos' => 'required|string',
                 'email' => 'required|string|email|unique:users|max:255',
-                'password' => 'required|string|confirmed|min:8',
+                'password' => 'required|string|confirmed',
                 'password_confirmation' => 'required|string',
             ]);
             if($validate->fails())
@@ -51,9 +51,10 @@ class AuthController extends Controller
                 'token' => $token,
                 'message' => 'Successfully created user!',
             ], 201);
-    }
+}
 
-    public function login(Request $request)
+
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
         try {
@@ -61,9 +62,8 @@ class AuthController extends Controller
                 return response()->json(['error' => 'invalid_credentials'], 400);
             }
             if (auth()->check()) {
-                $id = auth()->user()->id;
+                $id = auth()->user()->id_usuario;
             } else {
-                // Handle the case where the user is not authenticated
                 return response()->json(['error' => 'unauthenticated'], 401);
             }
         } catch (JWTException $e) {
@@ -78,10 +78,11 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token,
             'message' => 'Successfully login!',
-            'id'=>$id,
+            'id_usuario'=>$id,
             'nombre'=>$nombre
         ], 201);
     }
+
     public function Profile(Request $request, int $id)
     {
         $user=user::find($id);

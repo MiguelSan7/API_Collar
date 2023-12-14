@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Pet;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -16,6 +17,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
+    protected $primaryKey = 'id_usuario';
     protected $fillable = [
         'nombre', 'apellidos', 'email', 'password',
     ];

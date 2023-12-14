@@ -48,7 +48,7 @@ public function apiHTTP()
         }
         
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_dmDN30W7i8PaPeNhyPP3Q8yOGPOD',
+            'X-AIO-Key' => 'aio_qxBF70TW4QtPUt5ITONzGO3ctpiJ',
         ])->get("https://io.adafruit.com/api/v2/Kiilver/feeds/{$feed}/data");
         
         if ($response->ok()) {
@@ -78,7 +78,7 @@ public function controlarBuzzer(Request $request) {
     $valor = isset($data['value']) ? $data['value'] : 0;
 
     $response = Http::withHeaders([
-        'X-AIO-Key' => 'aio_dmDN30W7i8PaPeNhyPP3Q8yOGPOD',
+        'X-AIO-Key' => 'aio_qxBF70TW4QtPUt5ITONzGO3ctpiJ',
         'Content-Type' => 'application/json',
     ])->post("https://io.adafruit.com/api/v2/Kiilver/feeds/correa-inteligentebuzzer/data", [
         'value' => $valor
