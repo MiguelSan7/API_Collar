@@ -53,7 +53,7 @@ class AuthController extends Controller
             ], 201);
     }
 
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
         try {
@@ -70,12 +70,38 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
+        $user=user::find($id);
+        if($user)
+        {
+            $nombre=$user->nombre;
+        }
         return response()->json([
             'token' => $token,
             'message' => 'Successfully login!',
-            'id'=>$id
+            'id'=>$id,
+            'nombre'=>$nombre
         ], 201);
     }
+    public function Profile(Request $request, int $id)
+    {
+        $user=user::find($id);
+        if($user)
+        {
+            return response()->json(
+                [
+                    "msg"=>"Persona encontrada!!",
+                    "nombre"=>$user->nombre,
+                    "apellidos"=>$user->apellidos,
+                    "email"=>$user->email,
+                    "password"=>$user->password
+                ],200);
+        }
+
+        return response()->json(
+            [
+                "msg"=>"Persona no encontrada"
+            ],404);
+        }
 
     public function Home(Request $request, int $id)
     {
@@ -95,5 +121,38 @@ class AuthController extends Controller
             [
                 "msg"=>"Persona no encontrada"
             ],404);
+    }
+    public function UpdatePassword(Request $request, int $id)
+    {
+        $validate = Validator::make($request->all(), [
+            'password' => 'required|string|confirmed',
+            'password_confirmation' => 'required|string',
+        ]);
+    
+        if ($validate->fails()) {
+            return response()->json(["errors" => $validate->errors(), "msg" => "Errores de validación"], 422);
+        }
+    
+        $user = User::find($id);
+    
+        if (!$user) {
+            return response()->json(["msg" => "Usuario no encontrado"], 404);
+        }
+    
+        // Verifica que la contraseña y la confirmación coincidan
+        if ($request->password !== $request->password_confirmation) {
+            return response()->json(["msg" => "Las contraseñas no coinciden"], 422);
+        }
+    
+        $user->password = Hash::make($request->password);
+        $user->save();
+    
+        $token = JWTAuth::fromUser($user);
+    
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+            'message' => 'Contraseña actualizada exitosamente!',
+        ], 200);
     }
 }

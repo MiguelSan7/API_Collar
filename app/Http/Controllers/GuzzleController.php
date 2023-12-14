@@ -38,11 +38,17 @@ public function apiHTTP()
             case 8:
                 $feed="correa-inteligentebuzzer";
                 break;
+            case 9:
+                $feed="correa-inteligentelatitud";
+                break;
+            case 10:
+                $feed="correa-inteligentelongitud";
+                break;
             
         }
         
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_cHec78sdrwepit6A67medtt3h4Qg',
+            'X-AIO-Key' => 'aio_dmDN30W7i8PaPeNhyPP3Q8yOGPOD',
         ])->get("https://io.adafruit.com/api/v2/Kiilver/feeds/{$feed}/data");
         
         if ($response->ok()) {
@@ -54,11 +60,13 @@ public function apiHTTP()
                 "feed_key" => $feedKey,
                 "value" => $value
             ];
+            return response()->json(['sensor_data'=> $responses, 200]);
         } else {
             $responses[] = [
                 "msg" => "No quema kuh :C",
                 "data" => $response->body()
             ];
+            return response()->json($responses, 401);
         }
     }
 
@@ -70,7 +78,7 @@ public function controlarBuzzer(Request $request) {
     $valor = isset($data['value']) ? $data['value'] : 0;
 
     $response = Http::withHeaders([
-        'X-AIO-Key' => 'aio_cHec78sdrwepit6A67medtt3h4Qg',
+        'X-AIO-Key' => 'aio_dmDN30W7i8PaPeNhyPP3Q8yOGPOD',
         'Content-Type' => 'application/json',
     ])->post("https://io.adafruit.com/api/v2/Kiilver/feeds/correa-inteligentebuzzer/data", [
         'value' => $valor
