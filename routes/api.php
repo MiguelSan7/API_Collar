@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\PetsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\PetsController;
+use App\http\Controllers\GuzzleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,42 @@ use App\Http\Controllers\Auth\AuthController;
 |
 */
 
+Route::group(
+    [
+    'middleware' => 'api',
+    'prefix' => 'auth',
+    ],
+    function ($router) {
+        Route::post('register', [AuthController::class, 'register']);
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('me', [AuthController::class, 'me']);
+        Route::get('/home/{id}',[AuthController::class,'Home']);
+        Route::put('/users/{id}/update-password', [AuthController::class, 'UpdatePassword']);
+    }
+);
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/profile/{id}',[AuthController::class,'Profile']);
+Route::group(
+    [
+        'middleware' => 'api',
+        'prefix' => 'pets',
+    ],
+    function ($router) {
+        Route::get('/view', [PetsController::class, 'index']);
+        Route::get('/view/{id}', [PetsController::class, 'show']);
+        Route::post('/add', [PetsController::class, 'store']);
+        Route::put('/edit/{id}', [PetsController::class, 'update']);
+        Route::delete('/delete/{id}', [PetsController::class, 'destroy']);
+        Route::get('/mypets/{id}',[PetsController::class,'MyPets']);
+    }
+);
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'guzzle',
 
-Route::post('/add', [PetsController::class, 'store']);
-Route::get('/mypets/{id}',[PetsController::class,'MyPets']);
-
-Route::get('guzzle/view', [GuzzleController::class, 'apiHTTP']);
-Route::put('/users/{id}/update-password', [AuthController::class, 'UpdatePassword']);
+],
+function ($router) {
+    Route::post('/buzzer', [GuzzleController::class, 'controlarBuzzer']);
+    Route::get('/view', [GuzzleController::class, 'apiHTTP']);
+}
+);

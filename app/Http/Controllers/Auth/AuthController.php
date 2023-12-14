@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -18,7 +19,7 @@ class AuthController extends Controller
                 'nombre' => 'required|string|max:255',
                 'apellidos' => 'required|string',
                 'email' => 'required|string|email|unique:users|max:255',
-                'password' => 'required|string|confirmed',
+                'password' => 'required|string|confirmed|min:8',
                 'password_confirmation' => 'required|string',
             ]);
             if($validate->fails())
@@ -50,9 +51,9 @@ class AuthController extends Controller
                 'token' => $token,
                 'message' => 'Successfully created user!',
             ], 201);
-}
+    }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
         try {
@@ -69,20 +70,14 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        $user=user::find($id);
-        if($user)
-        {
-            $nombre=$user->nombre;
-        }
         return response()->json([
             'token' => $token,
             'message' => 'Successfully login!',
-            'id'=>$id,
-            'nombre'=>$nombre
+            'id'=>$id
         ], 201);
     }
 
-    public function Profile(Request $request, int $id)
+    public function Home(Request $request, int $id)
     {
         $user=user::find($id);
         if($user)
@@ -92,8 +87,7 @@ class AuthController extends Controller
                     "msg"=>"Persona encontrada!!",
                     "nombre"=>$user->nombre,
                     "apellidos"=>$user->apellidos,
-                    "email"=>$user->email,
-                    "password"=>$user->password
+                    "email"=>$user->email
                 ],200);
         }
 
@@ -102,7 +96,6 @@ class AuthController extends Controller
                 "msg"=>"Persona no encontrada"
             ],404);
     }
-
     public function UpdatePassword(Request $request, int $id)
 {
     $validate = Validator::make($request->all(), [
@@ -118,6 +111,11 @@ class AuthController extends Controller
 
     if (!$user) {
         return response()->json(["msg" => "Usuario no encontrado"], 404);
+    }
+
+    // Verifica que la contraseña y la confirmación coincidan
+    if ($request->password !== $request->password_confirmation) {
+        return response()->json(["msg" => "Las contraseñas no coinciden"], 422);
     }
 
     $user->password = Hash::make($request->password);
