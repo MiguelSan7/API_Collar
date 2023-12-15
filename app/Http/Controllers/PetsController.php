@@ -120,26 +120,22 @@ class PetsController extends Controller
         $result = DB::select('
         SELECT count(pets.nombre) as "Pets"
         FROM pets
-        INNER JOIN users ON users.id = pets.id_usuario
+        INNER JOIN users ON users.id_usuario = pets.id_usuario
         WHERE pets.id_usuario = :id
         GROUP BY pets.nombre
     ', [":id"=>$id]);
-    $nombre=DB::selectOne('SELECT users.nombre from users WHERE users.id_usuario= :id ',
-    [":id"=>$id]);
     
     if ($result != null) {
-        $pets_res = DB::select('SELECT pets.nombre as petss FROM pets
+        $pets_res = DB::select('SELECT pets.nombre,pets.id_mascota FROM pets
             INNER JOIN users ON users.id_usuario = pets.id_usuario
             WHERE pets.id_usuario = :id
         ', [":id"=>$id]);
     
         return response()->json([
-                'nombre'=>$nombre,
                 'pets' => $pets_res],200);
     } else {
         return response()->json(
             [
-                "nombre"=>$nombre,
                 "msg" => "You don't have any registered pets!"
             ], 404);
         }

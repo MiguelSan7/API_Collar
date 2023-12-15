@@ -48,7 +48,7 @@ public function apiHTTP()
         }
         
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_zAPl09CH24XPR2RRETJxjGWdIltJ',
+            'X-AIO-Key' => 'aio_pOiZ86lLgAuBZBm6sObKFUdnUCG5',
         ])->get("https://io.adafruit.com/api/v2/Kiilver/feeds/{$feed}/data");
         
         if ($response->ok()) {
@@ -60,7 +60,7 @@ public function apiHTTP()
                 "feed_key" => $feedKey,
                 "value" => $value
             ];
-            return response()->json(['sensor_data'=> $responses, 200]);
+            return response()->json(['sensor_data'=> $responses],200);
         } else {
             $responses[] = [
                 "msg" => "No quema kuh :C",
