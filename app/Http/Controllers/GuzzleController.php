@@ -11,7 +11,7 @@ public function apiHTTP()
 {
     $responses = [];
     
-    for ($i = 1; $i < 8; $i++) {
+    for ($i = 1; $i < 11; $i++) {
         switch($i)
         {
             case 1:
@@ -60,7 +60,7 @@ public function apiHTTP()
                 "feed_key" => $feedKey,
                 "value" => $value
             ];
-            return response()->json(['sensor_data'=> $responses],200);
+
         } else {
             $responses[] = [
                 "msg" => "No quema kuh :C",
@@ -71,6 +71,7 @@ public function apiHTTP()
     }
 
     // Devuelves todas las respuestas en un solo JSON
+    return response()->json(['sensor_data'=> $responses],200);
     return response()->json($responses, 200);
 }
 public function controlarBuzzer(Request $request) {
@@ -96,6 +97,82 @@ public function controlarBuzzer(Request $request) {
             "data" => $response->body(),
         ], 400);
     }
+}
+public function gpsLat(){
+    $responses = [];
+    
+    for ($i = 1; $i < 2; $i++) {
+        switch($i)
+        {
+            case 1:
+                $feed="correa-inteligentelatitud";
+                break;
+        }
+        
+        $response = Http::withHeaders([
+            'X-AIO-Key' => 'aio_daOQ73VdbT6NnMEkmzLX9TR0PNeX',
+        ])->get("https://io.adafruit.com/api/v2/Kiilver/feeds/{$feed}/data");
+        
+        if ($response->ok()) {
+            $data = $response->json();
+            $value = $data[0]['value'];
+            $feedKey = $data[0]['feed_key'];
+            
+            $responses[] = [
+                "feed_key" => $feedKey,
+                "value" => $value
+            ];
+
+        } else {
+            $responses[] = [
+                "msg" => "No quema kuh :C",
+                "data" => $response->body()
+            ];
+            return response()->json($responses, 401);
+        }
+    }
+
+    // Devuelves todas las respuestas en un solo JSON
+    return response()->json(['sensor_data'=> $responses],200);
+
+}
+public function gpsLong(){
+    $responses = [];
+    
+    for ($i = 1; $i < 2; $i++) {
+        switch($i)
+        {
+            case 1:
+                $feed="correa-inteligentelongitud";
+                break;
+        }
+        
+        $response = Http::withHeaders([
+            'X-AIO-Key' => 'aio_daOQ73VdbT6NnMEkmzLX9TR0PNeX',
+        ])->get("https://io.adafruit.com/api/v2/Kiilver/feeds/{$feed}/data");
+        
+        if ($response->ok()) {
+            $data = $response->json();
+            $value = $data[0]['value'];
+            $feedKey = $data[0]['feed_key'];
+            
+            $responses[] = [
+                "feed_key" => $feedKey,
+                "value" => $value
+            ];
+
+        } else {
+            $responses[] = [
+                "msg" => "No quema kuh :C",
+                "data" => $response->body()
+            ];
+            return response()->json($responses, 401);
+        }
+    }
+
+    // Devuelves todas las respuestas en un solo JSON
+    return response()->json(['sensor_data'=> $responses],200);
+
 }
     
 }

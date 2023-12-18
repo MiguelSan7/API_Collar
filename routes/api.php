@@ -55,5 +55,7 @@ Route::group([
 function ($router) {
     Route::post('/buzzer', [GuzzleController::class, 'controlarBuzzer']);
     Route::get('/view', [GuzzleController::class, 'apiHTTP']);
+    Route::get('/gpslat', [GuzzleController::class, 'gpsLat']);
+    Route::get('/gpslong', [GuzzleController::class, 'gpsLong']);
 }
 );
